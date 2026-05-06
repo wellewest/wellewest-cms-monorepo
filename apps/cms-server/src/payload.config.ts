@@ -50,10 +50,7 @@ export default buildConfig({
         posts: {},
         media: {},
       },
-      tenantsArrayField: {
-        includeDefaultField: false,
-      },
-      userHasAccessToAllTenants: (user) =>
+      userHasAccessToAllTenants: (user: any) =>
         user?.role === 'super-admin',
     }),
     seoPlugin({

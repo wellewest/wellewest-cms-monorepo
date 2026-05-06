@@ -50,14 +50,6 @@ export const Users: CollectionConfig = {
         { label: 'Kunde — Viewer', value: 'viewer' },
       ],
     },
-    {
-      name: 'tenants',
-      type: 'relationship',
-      relationTo: 'tenants',
-      hasMany: true,
-      admin: {
-        description: 'Welche Tenants kann dieser User sehen / editieren',
-      },
-    },
+    // Hinweis: Das `tenants`-Feld wird vom multiTenantPlugin automatisch hinzugefügt.
   ],
 }

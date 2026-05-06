@@ -1,0 +1,39 @@
+/*
+ * WelleWest CMS Custom Branding
+ * Primärfarbe: #004AAD (Blau)
+ * Akzentfarbe: #FFA500 (Orange)
+ */
+
+:root {
+  --color-base-0: #ffffff;
+  --color-base-50: #fafbfc;
+  --color-base-100: #f5f6fa;
+  --color-base-150: #eaecf2;
+  --color-base-200: #d8dde6;
+  --color-base-1000: #031538;
+
+  --color-success-500: #004aad;
+  --theme-elevation-650: #004aad;
+
+  /* WelleWest-Akzente */
+  --color-warning-500: #ffa500;
+}
+
+[data-theme='light'] {
+  --theme-text: #031538;
+  --theme-bg: #ffffff;
+  --theme-elevation-0: #ffffff;
+  --theme-elevation-50: #fafbfc;
+  --theme-elevation-100: #f5f6fa;
+  --color-success-500: #004aad;
+}
+
+[data-theme='dark'] {
+  --color-success-500: #4f819d;
+}
+
+/* Custom-Logo-Styling im Login-Screen */
+.template-default__logo,
+.graphic-logo {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(85%) saturate(2410%) hue-rotate(208deg) brightness(95%) contrast(105%);
+}

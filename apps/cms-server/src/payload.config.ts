@@ -38,6 +38,9 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL,
     },
+    // Auto-push: bei jedem Start das Schema mit der DB syncen.
+    // Akzeptabel für laufende Iteration; später auf Migration-Workflow umstellen.
+    push: true,
   }),
   sharp,
   plugins: [

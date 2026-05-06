@@ -3,6 +3,10 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
+  labels: {
+    singular: { de: 'Blogbeitrag', en: 'Post' },
+    plural: { de: 'Blogbeiträge', en: 'Posts' },
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'publishedDate', '_status', 'updatedAt'],

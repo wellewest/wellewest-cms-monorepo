@@ -50,6 +50,7 @@ ENV HOSTNAME=0.0.0.0
 # Standalone Next.js output (compiled by `output: 'standalone'`)
 COPY --from=builder --chown=nextjs:nodejs /app/apps/cms-server/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/apps/cms-server/.next/static ./apps/cms-server/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/apps/cms-server/public ./apps/cms-server/public
 
 USER nextjs
 EXPOSE 3000

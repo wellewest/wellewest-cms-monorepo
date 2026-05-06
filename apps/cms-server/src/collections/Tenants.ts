@@ -2,10 +2,14 @@ import type { CollectionConfig } from 'payload'
 
 export const Tenants: CollectionConfig = {
   slug: 'tenants',
+  labels: {
+    singular: { de: 'Kunde', en: 'Tenant' },
+    plural: { de: 'Kunden', en: 'Tenants' },
+  },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'siteType', 'status'],
-    description: 'Kunden / Tenants — jeder Kunde ist eine Tenant-Einheit',
+    description: { de: 'Kunden / Tenants — jeder Kunde ist eine Tenant-Einheit', en: 'Customers / Tenants — each customer is a tenant' },
   },
   access: {
     read: ({ req: { user } }) => Boolean(user),

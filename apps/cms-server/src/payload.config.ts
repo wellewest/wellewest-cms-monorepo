@@ -1,6 +1,7 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
+import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { de } from '@payloadcms/translations/languages/de'
@@ -15,6 +16,8 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
+import { SiteSettings } from './globals/SiteSettings'
+import { LaunchChecklist } from './globals/LaunchChecklist'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -47,6 +50,7 @@ export default buildConfig({
     fallbackLanguage: 'de',
   },
   collections: [Users, Tenants, Media, Pages, Posts],
+  globals: [SiteSettings, LaunchChecklist],
   editor: lexicalEditor({}),
   secret: process.env.PAYLOAD_SECRET || 'CHANGEME-payload-secret',
   typescript: {
@@ -74,6 +78,14 @@ export default buildConfig({
       uploadsCollection: 'media',
       generateTitle: ({ doc }: any) => `${doc?.title?.value || 'Page'}`,
       generateURL: ({ doc }: any) => `${process.env.SERVER_URL || ''}/${doc?.slug?.value || ''}`,
+    }),
+    redirectsPlugin({
+      collections: ['pages', 'posts'],
+      overrides: {
+        admin: {
+          group: { de: 'Verwaltung', en: 'Administration' },
+        },
+      },
     }),
     s3Storage({
       collections: {

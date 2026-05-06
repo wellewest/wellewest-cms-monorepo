@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro'
+import { findOne } from '../lib/payload'
+
+const homepage = await findOne({
+  collection: 'pages',
+  where: { slug: { equals: 'home' } },
+}).catch(() => null)
+---
+
+<Base title={homepage?.title || 'Willkommen'} description={homepage?.metaDescription}>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>{homepage?.title || 'WelleWest Demo'}</h1>
+        <p>Diese Demo-Seite läuft auf dem WelleWest Multi-Tenant-CMS.</p>
+        <p class="hint">
+          Inhalte verwaltest du im <a href="https://cms.wellewest.at/admin">CMS-Admin</a>.
+          Sobald du eine Seite mit Slug <code>home</code> anlegst, erscheint sie hier.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <style>
+    .hero {
+      padding: 8rem 0 6rem;
+      background: linear-gradient(135deg, #f6f8fc 0%, #eef4ff 100%);
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin: 0 0 1rem;
+      color: var(--color-primary);
+    }
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--color-muted);
+      max-width: 640px;
+      margin: 0 auto 1rem;
+    }
+    .hint { font-size: 0.95rem; }
+    code { background: rgba(0,74,173,0.1); padding: 0.15rem 0.5rem; border-radius: 4px; font-family: monospace; }
+  </style>
+</Base>

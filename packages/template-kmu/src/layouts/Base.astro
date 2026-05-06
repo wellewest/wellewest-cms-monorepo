@@ -1,0 +1,95 @@
+---
+import { findGlobal } from '../lib/payload'
+
+interface Props {
+  title?: string
+  description?: string
+  metaImage?: string
+  noindex?: boolean
+}
+
+const { title, description, metaImage, noindex = false } = Astro.props
+
+// Hole Site-Settings (Tenant-spezifisch)
+const settings: any = await findGlobal('site-settings').catch(() => null)
+
+const fullTitle = title
+  ? `${title}${settings?.metaTitleSuffix ? ' ' + settings.metaTitleSuffix : ''}`
+  : settings?.siteName || 'Website'
+
+const finalDescription = description || settings?.metaDescription || ''
+const hideFromSearch = settings?.hideFromSearchEngines || noindex
+
+const primaryColor = settings?.primaryColor || '#004AAD'
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={finalDescription} />
+
+    {hideFromSearch && <meta name="robots" content="noindex, nofollow" />}
+    {settings?.searchConsoleVerification && <meta name="google-site-verification" content={settings.searchConsoleVerification} />}
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={finalDescription} />
+    <meta property="og:type" content="website" />
+    {metaImage && <meta property="og:image" content={metaImage} />}
+
+    <!-- Favicon -->
+    {settings?.favicon?.url && <link rel="icon" type="image/svg+xml" href={settings.favicon.url} />}
+
+    <!-- Plausible Analytics (cookieless, kein Consent nötig) -->
+    {settings?.plausibleEnabled && settings?.plausibleDomain && (
+      <script defer data-domain={settings.plausibleDomain} src="https://analytics.wellewest.at/js/script.js"></script>
+    )}
+
+    <!-- GA4 (mit Consent) -->
+    {settings?.ga4MeasurementId && (
+      <Fragment>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${settings.ga4MeasurementId}`}></script>
+        <script set:html={`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied' });
+          gtag('config', '${settings.ga4MeasurementId}');
+        `} />
+      </Fragment>
+    )}
+
+    <!-- Custom-Code <head> -->
+    {settings?.customHeadCode && <Fragment set:html={settings.customHeadCode} />}
+
+    <style is:global define:vars={{ primaryColor }}>
+      :root {
+        --color-primary: var(--primaryColor, #004AAD);
+        --color-text: #0e1424;
+        --color-bg: #ffffff;
+        --color-muted: #6f7c92;
+        --container: 1200px;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        font-family: 'Catamaran', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--color-text);
+        background: var(--color-bg);
+        line-height: 1.55;
+      }
+      h1, h2, h3, h4, h5, h6 { font-family: 'Amaranth', sans-serif; line-height: 1.2; letter-spacing: -0.01em; }
+      a { color: var(--color-primary); }
+      a:hover { opacity: 0.85; }
+      .container { max-width: var(--container); margin: 0 auto; padding: 0 1.5rem; }
+    </style>
+  </head>
+  <body>
+    <slot />
+
+    {/* Custom-Code </body> */}
+    {settings?.customBodyCode && <Fragment set:html={settings.customBodyCode} />}
+  </body>
+</html>

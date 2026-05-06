@@ -3,6 +3,8 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { de } from '@payloadcms/translations/languages/de'
+import { en } from '@payloadcms/translations/languages/en'
 import path from 'path'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
@@ -23,10 +25,21 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      graphics: {
+        Logo: '@/components/graphics/Logo',
+        Icon: '@/components/graphics/Icon',
+      },
+    },
     meta: {
       titleSuffix: '— WelleWest CMS',
       icons: [{ rel: 'icon', type: 'image/svg+xml', url: '/favicon.svg' }],
+      defaultOGImageType: 'static',
     },
+  },
+  i18n: {
+    supportedLanguages: { de, en },
+    fallbackLanguage: 'de',
   },
   collections: [Users, Tenants, Media, Pages, Posts],
   editor: lexicalEditor({}),
@@ -38,8 +51,6 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL,
     },
-    // Auto-push: bei jedem Start das Schema mit der DB syncen.
-    // Akzeptabel für laufende Iteration; später auf Migration-Workflow umstellen.
     push: true,
   }),
   sharp,

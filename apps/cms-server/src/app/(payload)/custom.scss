@@ -1,39 +1,99 @@
 /*
- * WelleWest CMS Custom Branding
+ * WelleWest CMS — Corporate Design Override
  * Primärfarbe: #004AAD (Blau)
  * Akzentfarbe: #FFA500 (Orange)
+ * Schriften: Amaranth (Headlines) / Catamaran (Body)
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Catamaran:wght@300;400;500;600;700;800&display=swap');
+
 :root {
-  --color-base-0: #ffffff;
-  --color-base-50: #fafbfc;
-  --color-base-100: #f5f6fa;
-  --color-base-150: #eaecf2;
-  --color-base-200: #d8dde6;
-  --color-base-1000: #031538;
+  /* Primärfarbe ersetzt Payload-Standard-Blau */
+  --theme-success-100: #cfe0fb;
+  --theme-success-150: #a3c2f4;
+  --theme-success-200: #7ba6ee;
+  --theme-success-250: #5689e6;
+  --theme-success-300: #356ce0;
+  --theme-success-350: #144fd6;
+  --theme-success-400: #0046cc;
+  --theme-success-450: #004ab2;
+  --theme-success-500: #004aad;
+  --theme-success-550: #003e94;
+  --theme-success-600: #00347d;
+  --theme-success-650: #002b66;
+  --theme-success-700: #002250;
 
-  --color-success-500: #004aad;
-  --theme-elevation-650: #004aad;
+  /* Akzent (Orange) */
+  --theme-warning-500: #ffa500;
+  --theme-warning-600: #e69500;
 
-  /* WelleWest-Akzente */
-  --color-warning-500: #ffa500;
+  /* Schriften */
+  --font-body: 'Catamaran', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
-[data-theme='light'] {
-  --theme-text: #031538;
-  --theme-bg: #ffffff;
-  --theme-elevation-0: #ffffff;
-  --theme-elevation-50: #fafbfc;
-  --theme-elevation-100: #f5f6fa;
-  --color-success-500: #004aad;
+body,
+html {
+  font-family: var(--font-body);
 }
 
-[data-theme='dark'] {
-  --color-success-500: #4f819d;
+h1, h2, h3, h4, h5, h6,
+.template-default__title,
+.dashboard__title,
+.collection-list__heading,
+.doc-header__title-wrapper {
+  font-family: 'Amaranth', sans-serif !important;
+  letter-spacing: -0.01em;
 }
 
-/* Custom-Logo-Styling im Login-Screen */
-.template-default__logo,
-.graphic-logo {
-  filter: brightness(0) saturate(100%) invert(20%) sepia(85%) saturate(2410%) hue-rotate(208deg) brightness(95%) contrast(105%);
+/* Login-Screen WelleWest-Branding */
+.login {
+  background: linear-gradient(135deg, #f5f7fc 0%, #e8eef9 100%);
+}
+
+[data-theme='dark'] .login {
+  background: linear-gradient(135deg, #0a1428 0%, #051022 100%);
+}
+
+.login__brand {
+  margin-bottom: 2rem;
+}
+
+/* Buttons in WelleWest-Blau */
+.btn--style-primary,
+.btn--icon-style-without-border:hover {
+  background-color: #004aad;
+  border-color: #004aad;
+}
+
+.btn--style-primary:hover,
+.btn--style-primary:focus {
+  background-color: #003e94;
+  border-color: #003e94;
+}
+
+/* Links */
+a {
+  color: #004aad;
+}
+a:hover {
+  color: #003e94;
+}
+
+/* Sidebar Active-Marker */
+.nav__link--active::before,
+.nav-group__toggle--active::before {
+  background: #ffa500;
+}
+
+/* Dashboard-Karten */
+.dashboard__card-list-item:hover {
+  border-color: #004aad;
+}
+
+/* Tenant-Selector Top-Bar */
+.tenant-selector,
+[class*='tenant-selector'] {
+  background: rgba(0, 74, 173, 0.06);
+  border-radius: 6px;
 }

@@ -11,6 +11,7 @@ export const Pages: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
     description: 'Inhaltsseiten. Jede Seite kann aus Blöcken zusammengestellt werden.',
+    group: { de: 'Inhalte', en: 'Content' },
   },
   versions: {
     drafts: {

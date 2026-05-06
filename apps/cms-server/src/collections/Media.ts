@@ -23,6 +23,7 @@ export const Media: CollectionConfig = {
   admin: {
     useAsTitle: 'alt',
     defaultColumns: ['filename', 'alt', 'mimeType', 'filesize'],
+    group: { de: 'Inhalte', en: 'Content' },
   },
   fields: [
     {

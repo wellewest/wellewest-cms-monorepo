@@ -1,99 +1,276 @@
 /*
- * WelleWest CMS — Corporate Design Override
- * Primärfarbe: #004AAD (Blau)
- * Akzentfarbe: #FFA500 (Orange)
- * Schriften: Amaranth (Headlines) / Catamaran (Body)
+ * WelleWest CMS — Modern Dashboard Look
+ * Inspiriert von NeuroCMS, angepasst auf WelleWest-CI:
+ * Primärfarbe: #004AAD | Akzent: #FFA500
+ * Schriften: Amaranth (Headlines) | Catamaran (Body)
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Catamaran:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Primärfarbe ersetzt Payload-Standard-Blau */
-  --theme-success-100: #cfe0fb;
-  --theme-success-150: #a3c2f4;
-  --theme-success-200: #7ba6ee;
-  --theme-success-250: #5689e6;
-  --theme-success-300: #356ce0;
-  --theme-success-350: #144fd6;
-  --theme-success-400: #0046cc;
-  --theme-success-450: #004ab2;
-  --theme-success-500: #004aad;
-  --theme-success-550: #003e94;
-  --theme-success-600: #00347d;
-  --theme-success-650: #002b66;
-  --theme-success-700: #002250;
+  --ww-blue-50: #eef4ff;
+  --ww-blue-100: #d9e6ff;
+  --ww-blue-200: #b3c9ff;
+  --ww-blue-300: #82a4ff;
+  --ww-blue-400: #4f7cff;
+  --ww-blue-500: #004aad;
+  --ww-blue-600: #003e94;
+  --ww-blue-700: #00347d;
+  --ww-blue-800: #002b66;
+  --ww-blue-900: #001f4d;
 
-  /* Akzent (Orange) */
-  --theme-warning-500: #ffa500;
-  --theme-warning-600: #e69500;
+  --ww-orange-400: #ffb733;
+  --ww-orange-500: #ffa500;
+  --ww-orange-600: #e69500;
 
-  /* Schriften */
-  --font-body: 'Catamaran', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --ww-radius-sm: 8px;
+  --ww-radius-md: 12px;
+  --ww-radius-lg: 16px;
 }
 
-body,
-html {
-  font-family: var(--font-body);
+/* ============== LIGHT THEME ============== */
+[data-theme='light'] {
+  --theme-bg: #f6f8fc;
+  --theme-elevation-0: #ffffff;
+  --theme-elevation-50: #f6f8fc;
+  --theme-elevation-100: #eef1f7;
+  --theme-elevation-150: #e3e8f0;
+  --theme-elevation-200: #d3dae5;
+  --theme-elevation-250: #b8c1d0;
+  --theme-elevation-300: #98a3b6;
+  --theme-elevation-400: #6f7c92;
+  --theme-elevation-500: #4f5b6e;
+  --theme-elevation-600: #3a4356;
+  --theme-elevation-700: #283041;
+  --theme-elevation-800: #182032;
+  --theme-elevation-900: #0e1424;
+  --theme-elevation-1000: #061021;
+  --theme-text: #0e1424;
+  --theme-success-500: var(--ww-blue-500);
+  --theme-success-600: var(--ww-blue-600);
 }
 
-h1, h2, h3, h4, h5, h6,
-.template-default__title,
-.dashboard__title,
-.collection-list__heading,
-.doc-header__title-wrapper {
+/* ============== DARK THEME ============== */
+[data-theme='dark'] {
+  --theme-bg: #0a1428;
+  --theme-elevation-0: #0a1428;
+  --theme-elevation-50: #0e1a31;
+  --theme-elevation-100: #14223e;
+  --theme-elevation-150: #1a2c4d;
+  --theme-elevation-200: #233659;
+  --theme-elevation-250: #2c4068;
+  --theme-elevation-300: #3a4f7a;
+  --theme-elevation-400: #58709b;
+  --theme-elevation-500: #7d92ba;
+  --theme-elevation-600: #a3b4d2;
+  --theme-elevation-700: #c2d0e6;
+  --theme-elevation-800: #dde6f3;
+  --theme-elevation-900: #ecf2fb;
+  --theme-elevation-1000: #ffffff;
+  --theme-text: #ecf2fb;
+  --theme-success-500: var(--ww-blue-400);
+  --theme-success-600: var(--ww-blue-300);
+}
+
+body, html {
+  font-family: 'Catamaran', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
   font-family: 'Amaranth', sans-serif !important;
   letter-spacing: -0.01em;
 }
 
-/* Login-Screen WelleWest-Branding */
-.login {
-  background: linear-gradient(135deg, #f5f7fc 0%, #e8eef9 100%);
+/* ============== SIDEBAR ============== */
+.nav,
+.template-default__nav {
+  background: var(--theme-elevation-0) !important;
+  border-right: 1px solid var(--theme-elevation-150) !important;
+  padding: 8px !important;
 }
 
-[data-theme='dark'] .login {
-  background: linear-gradient(135deg, #0a1428 0%, #051022 100%);
+.nav-group__toggle,
+.nav__link {
+  border-radius: var(--ww-radius-sm) !important;
+  padding: 8px 12px !important;
+  margin: 2px 0 !important;
+  font-weight: 500 !important;
+  transition: all 0.15s ease !important;
+}
+
+.nav__link:hover {
+  background: var(--theme-elevation-100) !important;
+}
+
+.nav__link--active {
+  background: var(--ww-blue-500) !important;
+  color: #fff !important;
+}
+
+.nav-group__label {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--theme-elevation-400) !important;
+  padding: 16px 12px 6px !important;
+}
+
+/* ============== TOP HEADER ============== */
+.app-header {
+  background: var(--theme-elevation-0) !important;
+  border-bottom: 1px solid var(--theme-elevation-150) !important;
+  padding: 12px 24px !important;
+}
+
+/* ============== MAIN CONTENT BG ============== */
+.template-default__wrap,
+.template-default__main {
+  background: var(--theme-bg) !important;
+}
+
+/* ============== CARDS / KACHELN ============== */
+.dashboard__card-list,
+.list-controls,
+.collection-list,
+.doc-controls {
+  background: var(--theme-elevation-0) !important;
+  border: 1px solid var(--theme-elevation-150) !important;
+  border-radius: var(--ww-radius-md) !important;
+  padding: 16px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.dashboard__card-list-item,
+.collection-card {
+  background: var(--theme-elevation-0) !important;
+  border: 1px solid var(--theme-elevation-150) !important;
+  border-radius: var(--ww-radius-md) !important;
+  padding: 20px !important;
+  transition: all 0.18s ease !important;
+  position: relative;
+}
+
+.dashboard__card-list-item:hover {
+  border-color: var(--ww-blue-500) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 74, 173, 0.08);
+}
+
+.dashboard__label,
+.dashboard__card-list-item h2,
+.dashboard__card-list-item h3 {
+  font-family: 'Amaranth', sans-serif !important;
+  color: var(--theme-text) !important;
+}
+
+/* ============== BUTTONS ============== */
+.btn {
+  border-radius: var(--ww-radius-sm) !important;
+  font-weight: 500 !important;
+  transition: all 0.15s ease !important;
+}
+
+.btn--style-primary {
+  background-color: var(--ww-blue-500) !important;
+  border-color: var(--ww-blue-500) !important;
+}
+
+.btn--style-primary:hover {
+  background-color: var(--ww-blue-600) !important;
+  border-color: var(--ww-blue-600) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 74, 173, 0.25);
+}
+
+/* ============== INPUTS ============== */
+input[type='text'], input[type='email'], input[type='password'], input[type='number'],
+textarea, select, .react-select__control {
+  background: var(--theme-elevation-50) !important;
+  border: 1px solid var(--theme-elevation-200) !important;
+  border-radius: var(--ww-radius-sm) !important;
+  transition: all 0.15s ease !important;
+}
+
+input:focus, textarea:focus, .react-select__control--is-focused {
+  border-color: var(--ww-blue-500) !important;
+  box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.12) !important;
+  outline: none !important;
+}
+
+/* ============== LINKS ============== */
+a {
+  color: var(--ww-blue-500);
+}
+a:hover {
+  color: var(--ww-blue-600);
+}
+
+/* ============== LOGIN-SCREEN ============== */
+.login {
+  background: linear-gradient(135deg, var(--theme-elevation-0) 0%, var(--theme-elevation-50) 100%);
+  min-height: 100vh;
 }
 
 .login__brand {
   margin-bottom: 2rem;
 }
 
-/* Buttons in WelleWest-Blau */
-.btn--style-primary,
-.btn--icon-style-without-border:hover {
-  background-color: #004aad;
-  border-color: #004aad;
+.login__form {
+  background: var(--theme-elevation-0) !important;
+  border: 1px solid var(--theme-elevation-150) !important;
+  border-radius: var(--ww-radius-lg) !important;
+  padding: 40px !important;
+  box-shadow: 0 8px 32px rgba(0, 30, 80, 0.08);
 }
 
-.btn--style-primary:hover,
-.btn--style-primary:focus {
-  background-color: #003e94;
-  border-color: #003e94;
+/* ============== DOCUMENT VIEW ============== */
+.doc-controls {
+  background: var(--theme-elevation-0) !important;
+  border-radius: var(--ww-radius-md) !important;
+  padding: 16px !important;
+  margin-bottom: 16px !important;
 }
 
-/* Links */
-a {
-  color: #004aad;
-}
-a:hover {
-  color: #003e94;
+.tabs-field__tabs-wrap,
+.field-type {
+  background: transparent !important;
 }
 
-/* Sidebar Active-Marker */
-.nav__link--active::before,
-.nav-group__toggle--active::before {
-  background: #ffa500;
+/* ============== TENANT-SELECTOR ============== */
+[class*='tenant-selector'],
+.tenant-selector {
+  background: var(--ww-blue-50) !important;
+  border: 1px solid var(--ww-blue-100) !important;
+  border-radius: var(--ww-radius-sm) !important;
+  padding: 6px 12px !important;
 }
 
-/* Dashboard-Karten */
-.dashboard__card-list-item:hover {
-  border-color: #004aad;
+[data-theme='dark'] [class*='tenant-selector'],
+[data-theme='dark'] .tenant-selector {
+  background: rgba(0, 74, 173, 0.18) !important;
+  border-color: rgba(0, 74, 173, 0.32) !important;
 }
 
-/* Tenant-Selector Top-Bar */
-.tenant-selector,
-[class*='tenant-selector'] {
-  background: rgba(0, 74, 173, 0.06);
-  border-radius: 6px;
+/* ============== STATUS-BADGES ============== */
+.pill {
+  border-radius: 99px !important;
+  padding: 4px 10px !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
+}
+
+/* ============== TABLES ============== */
+.table {
+  border-radius: var(--ww-radius-md) !important;
+  overflow: hidden;
+  border: 1px solid var(--theme-elevation-150) !important;
+}
+
+.table thead {
+  background: var(--theme-elevation-50) !important;
+}
+
+.table tbody tr:hover {
+  background: var(--theme-elevation-50) !important;
 }

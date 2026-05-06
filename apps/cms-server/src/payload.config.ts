@@ -30,6 +30,11 @@ export default buildConfig({
         Logo: '@/components/graphics/Logo',
         Icon: '@/components/graphics/Icon',
       },
+      views: {
+        dashboard: {
+          Component: '@/components/views/Dashboard',
+        },
+      },
     },
     meta: {
       titleSuffix: '— WelleWest CMS',

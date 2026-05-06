@@ -11,6 +11,7 @@ export const Posts: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'publishedDate', '_status', 'updatedAt'],
     description: 'Blogbeiträge',
+    group: { de: 'Inhalte', en: 'Content' },
   },
   versions: {
     drafts: { autosave: { interval: 2000 }, schedulePublish: true },

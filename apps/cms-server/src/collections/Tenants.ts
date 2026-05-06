@@ -10,6 +10,7 @@ export const Tenants: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'siteType', 'status'],
     description: { de: 'Kunden / Tenants — jeder Kunde ist eine Tenant-Einheit', en: 'Customers / Tenants — each customer is a tenant' },
+    group: { de: 'Verwaltung', en: 'Administration' },
   },
   access: {
     read: ({ req: { user } }) => Boolean(user),

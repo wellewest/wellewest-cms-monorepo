@@ -14,6 +14,7 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['email', 'role', 'tenants'],
+    group: { de: 'Verwaltung', en: 'Administration' },
   },
   access: {
     read: ({ req: { user } }) => {

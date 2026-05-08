@@ -61,19 +61,6 @@ export const Pages: CollectionConfig = {
           ],
         },
         {
-          label: 'SEO',
-          fields: [
-            { name: 'metaTitle', type: 'text' },
-            { name: 'metaDescription', type: 'textarea' },
-            { name: 'metaImage', type: 'upload', relationTo: 'media' },
-            {
-              name: 'noindex',
-              type: 'checkbox',
-              label: 'Suchmaschinen ausschließen (noindex)',
-            },
-          ],
-        },
-        {
           label: 'Veröffentlichung',
           fields: [
             {

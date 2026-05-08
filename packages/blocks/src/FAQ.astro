@@ -1,0 +1,70 @@
+---
+import RichText from './RichText.astro'
+interface Props { block: any }
+const { block } = Astro.props
+const items = block.items || []
+
+// JSON-LD für SEO (Rich Results bei Google)
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((it: any) => ({
+    '@type': 'Question',
+    name: it.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: extractText(it.answer),
+    },
+  })),
+}
+
+function extractText(lex: any): string {
+  if (!lex?.root) return ''
+  function walk(n: any): string {
+    if (n.type === 'text') return n.text || ''
+    return (n.children || []).map(walk).join(' ')
+  }
+  return walk(lex.root).trim()
+}
+---
+
+<section class="faq">
+  <div class="container">
+    {block.heading && <h2 class="faq__heading">{block.heading}</h2>}
+    <div class="faq__list">
+      {items.map((it: any, i: number) => (
+        <details class="faq__item" open={i === 0}>
+          <summary>
+            <span>{it.question}</span>
+            <span class="faq__chevron" aria-hidden="true">▾</span>
+          </summary>
+          <div class="faq__answer">
+            <RichText data={it.answer} />
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+<style>
+  .faq { padding: 4rem 0; }
+  .faq__heading { text-align: center; margin-bottom: 2.5rem; }
+  .faq__list { max-width: 720px; margin: 0 auto; }
+  .faq__item {
+    border-bottom: 1px solid var(--color-divider, #e5e8ef);
+    padding: 1.25rem 0;
+  }
+  .faq__item summary {
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; font-weight: 600; font-size: 1.05rem;
+    color: var(--color-primary, #0e1f3d); padding: 0;
+    list-style: none;
+  }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__chevron { transition: transform 0.2s ease; color: var(--color-accent, #c9a25a); }
+  .faq__item[open] .faq__chevron { transform: rotate(180deg); }
+  .faq__answer { padding-top: 0.8rem; color: var(--color-text, #2a3447); }
+</style>

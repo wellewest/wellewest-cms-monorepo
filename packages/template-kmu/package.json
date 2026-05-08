@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "astro": "^5.0.0",
-    "@astrojs/sitemap": "^3.0.0"
+    "@astrojs/sitemap": "^3.0.0",
+    "@wellewest/blocks": "workspace:*"
   },
   "engines": {
     "node": ">=20"

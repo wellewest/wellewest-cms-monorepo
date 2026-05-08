@@ -1,0 +1,30 @@
+---
+import Hero from './Hero.astro'
+import TextImage from './TextImage.astro'
+import Text from './Text.astro'
+import Gallery from './Gallery.astro'
+import FAQ from './FAQ.astro'
+import CTA from './CTA.astro'
+
+interface Props {
+  blocks: any[]
+  cmsBaseURL?: string
+}
+
+const { blocks = [], cmsBaseURL = '' } = Astro.props
+---
+
+{blocks.map((block: any) => {
+  switch (block.blockType) {
+    case 'hero':       return <Hero block={block} cmsBaseURL={cmsBaseURL} />
+    case 'textImage':  return <TextImage block={block} cmsBaseURL={cmsBaseURL} />
+    case 'text':       return <Text block={block} />
+    case 'gallery':    return <Gallery block={block} cmsBaseURL={cmsBaseURL} />
+    case 'faq':        return <FAQ block={block} />
+    case 'cta':        return <CTA block={block} />
+    default:
+      return import.meta.env.DEV
+        ? <div style="padding:2rem;background:#fee;border:2px dashed red">Unbekannter Block: <code>{block.blockType}</code></div>
+        : null
+  }
+})}

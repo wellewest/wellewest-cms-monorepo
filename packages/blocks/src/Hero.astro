@@ -1,0 +1,92 @@
+---
+interface Props {
+  block: any
+  cmsBaseURL?: string
+}
+const { block, cmsBaseURL = '' } = Astro.props
+const variant = block.variant || 'cover'
+const imgSrc = block.image?.url ? (block.image.url.startsWith('http') ? block.image.url : cmsBaseURL + block.image.url) : ''
+const imgAlt = block.image?.alt || block.title || ''
+---
+
+{variant === 'cover' && (
+  <section class="hero hero--cover">
+    {imgSrc && (
+      <div class="hero__bg">
+        <img src={imgSrc} alt={imgAlt} loading="eager" fetchpriority="high" />
+        <div class="hero__overlay"></div>
+      </div>
+    )}
+    <div class="container hero__inner">
+      {block.eyebrow && <p class="eyebrow">{block.eyebrow}</p>}
+      <h1>{block.title}</h1>
+      {block.subtitle && <p class="hero__sub">{block.subtitle}</p>}
+      {block.ctaLabel && block.ctaLink && (
+        <a href={block.ctaLink} class="btn">{block.ctaLabel}</a>
+      )}
+    </div>
+  </section>
+)}
+
+{variant === 'split' && (
+  <section class="hero hero--split">
+    <div class="container hero__split-grid">
+      <div class="hero__split-text">
+        {block.eyebrow && <p class="eyebrow">{block.eyebrow}</p>}
+        <h1>{block.title}</h1>
+        {block.subtitle && <p class="hero__sub">{block.subtitle}</p>}
+        {block.ctaLabel && block.ctaLink && (
+          <a href={block.ctaLink} class="btn">{block.ctaLabel}</a>
+        )}
+      </div>
+      {imgSrc && (
+        <div class="hero__split-image">
+          <img src={imgSrc} alt={imgAlt} loading="eager" fetchpriority="high" />
+        </div>
+      )}
+    </div>
+  </section>
+)}
+
+{variant === 'plain' && (
+  <section class="hero hero--plain">
+    <div class="container">
+      {block.eyebrow && <p class="eyebrow">{block.eyebrow}</p>}
+      <h1>{block.title}</h1>
+      {block.subtitle && <p class="hero__sub">{block.subtitle}</p>}
+      {block.ctaLabel && block.ctaLink && (
+        <a href={block.ctaLink} class="btn">{block.ctaLabel}</a>
+      )}
+    </div>
+  </section>
+)}
+
+<style>
+  .hero { padding: 6rem 0 4.5rem; position: relative; overflow: hidden; }
+  .hero--cover {
+    color: #fff;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    background: var(--color-primary, #0e1f3d);
+  }
+  .hero--cover h1 { color: #fff; }
+  .hero__bg { position: absolute; inset: 0; z-index: 0; }
+  .hero__bg img { width: 100%; height: 100%; object-fit: cover; }
+  .hero__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, rgba(14,31,61,0.92) 0%, rgba(14,31,61,0.7) 60%, rgba(14,31,61,0.4) 100%);
+  }
+  .hero__inner { position: relative; z-index: 1; }
+  .hero__sub { font-size: 1.2rem; line-height: 1.6; max-width: 50ch; margin: 0 0 1.5rem; }
+  .hero--cover .hero__sub { color: #e6ecf5; }
+
+  .hero--split { padding: 5rem 0 4rem; }
+  .hero__split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .hero__split-image img { width: 100%; height: auto; border-radius: 4px; }
+  @media (max-width: 900px) {
+    .hero__split-grid { grid-template-columns: 1fr; }
+  }
+
+  .hero--plain { padding: 4rem 0 3rem; background: var(--color-bg-alt, #f5f3ee); }
+</style>

@@ -1,0 +1,70 @@
+---
+/**
+ * Rendert Lexical-JSON aus Payload.
+ * Minimaler Renderer — deckt Headings, Paragraphs, Lists, Links, Bold/Italic ab.
+ */
+interface Props {
+  data?: any
+  class?: string
+}
+
+const { data, class: className = 'rt' } = Astro.props
+
+function renderNode(node: any): string {
+  if (!node) return ''
+  const type = node.type
+  const children = (node.children || []).map(renderNode).join('')
+
+  if (type === 'text') {
+    let txt = (node.text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    const fmt = node.format ?? 0
+    if (fmt & 1) txt = `<strong>${txt}</strong>`
+    if (fmt & 2) txt = `<em>${txt}</em>`
+    if (fmt & 4) txt = `<s>${txt}</s>`
+    if (fmt & 8) txt = `<u>${txt}</u>`
+    if (fmt & 16) txt = `<code>${txt}</code>`
+    return txt
+  }
+
+  if (type === 'linebreak') return '<br/>'
+  if (type === 'paragraph') return children ? `<p>${children}</p>` : ''
+  if (type === 'heading') {
+    const tag = node.tag || 'h2'
+    return `<${tag}>${children}</${tag}>`
+  }
+  if (type === 'list') {
+    const tag = node.listType === 'number' ? 'ol' : 'ul'
+    return `<${tag}>${children}</${tag}>`
+  }
+  if (type === 'listitem') return `<li>${children}</li>`
+  if (type === 'quote') return `<blockquote>${children}</blockquote>`
+  if (type === 'link') {
+    const url = (node.fields?.url || node.url || '#').replace(/"/g, '&quot;')
+    const target = node.fields?.newTab ? ' target="_blank" rel="noopener"' : ''
+    return `<a href="${url}"${target}>${children}</a>`
+  }
+  return children
+}
+
+const html = data?.root ? (data.root.children || []).map(renderNode).join('') : ''
+---
+
+<div class={className} set:html={html} />
+
+<style>
+  .rt > :global(*:first-child) { margin-top: 0; }
+  .rt > :global(*:last-child) { margin-bottom: 0; }
+  .rt :global(p) { margin: 0 0 1rem; line-height: 1.7; }
+  .rt :global(h2) { font-family: var(--font-serif, Georgia, serif); font-size: 1.6rem; margin: 2rem 0 1rem; }
+  .rt :global(h3) { font-family: var(--font-serif, Georgia, serif); font-size: 1.25rem; margin: 1.5rem 0 0.75rem; }
+  .rt :global(ul), .rt :global(ol) { margin: 0 0 1rem 1.5rem; }
+  .rt :global(li) { margin: 0.4rem 0; line-height: 1.6; }
+  .rt :global(a) { color: var(--color-accent, #c9a25a); text-decoration: underline; text-underline-offset: 3px; }
+  .rt :global(blockquote) {
+    border-left: 3px solid var(--color-accent, #c9a25a);
+    padding: 0.5rem 0 0.5rem 1.25rem;
+    margin: 1.25rem 0;
+    font-style: italic;
+    color: var(--color-text-muted, #6a7990);
+  }
+</style>

@@ -150,3 +150,4 @@ ssh -i ~/.ssh/wellewest_cms_ed25519 root@178.105.75.15
 3. **Browser-Cache:** beim Demo-Site-Update Cmd+Shift+R für Hard-Reload, Caddy hat jetzt aber `Cache-Control: max-age=0` für HTML.
 4. **Multi-Tenant-Plugin:** crashed bei leerer Tenants-Tabelle. Default-Tenant „WelleWest Demo" mit ID 1 muss existieren.
 5. **Plan-Datei** mit voller Architektur-Doku liegt in `~/.claude/plans/die-wellewest-erstellt-aktuell-agile-moore.md` und als PDF auf dem Desktop.
+6. **🚨 Test-Mails — Empfänger-Regel:** Test-E-Mails (Forms-Gateway, Brevo, etc.) dürfen **ausschließlich** an Nordsteg- oder WelleWest-Adressen geschickt werden. **Nie** an Kunden-Postfächer (z.B. `villach@reifundpartner.at`) oder beliebige Test-Adressen, auch nicht zu Validierungs-Zwecken. Beim Bauen/Testen Empfänger im n8n-Workflow / Code immer auf `info@wellewest.at` o.ä. setzen, erst beim echten Go-Live des Kunden auf die Kunden-Adresse umstellen.

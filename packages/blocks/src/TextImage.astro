@@ -1,0 +1,45 @@
+---
+import RichText from './RichText.astro'
+interface Props {
+  block: any
+  cmsBaseURL?: string
+}
+const { block, cmsBaseURL = '' } = Astro.props
+const imgSrc = block.image?.url ? (block.image.url.startsWith('http') ? block.image.url : cmsBaseURL + block.image.url) : ''
+const imgAlt = block.image?.alt || block.heading || ''
+const reverse = block.imagePosition === 'left'
+---
+
+<section class="ti">
+  <div class="container">
+    <div class={`ti__grid ${reverse ? 'ti__grid--reverse' : ''}`}>
+      <div class="ti__text">
+        {block.eyebrow && <p class="eyebrow">{block.eyebrow}</p>}
+        <h2>{block.heading}</h2>
+        {block.body && <RichText data={block.body} />}
+        {block.ctaLabel && block.ctaLink && (
+          <a href={block.ctaLink} class="btn ti__cta">{block.ctaLabel}</a>
+        )}
+      </div>
+      {imgSrc && (
+        <div class="ti__image">
+          <img src={imgSrc} alt={imgAlt} loading="lazy" />
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ti { padding: 4rem 0; }
+  .ti__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .ti__grid--reverse .ti__text { order: 2; }
+  .ti__grid--reverse .ti__image { order: 1; }
+  .ti__image img { width: 100%; height: auto; border-radius: 4px; box-shadow: 0 12px 40px rgba(14,31,61,0.12); }
+  .ti__cta { margin-top: 1.5rem; }
+  @media (max-width: 900px) {
+    .ti { padding: 3rem 0; }
+    .ti__grid, .ti__grid--reverse { grid-template-columns: 1fr; gap: 2.5rem; }
+    .ti__grid--reverse .ti__text, .ti__grid--reverse .ti__image { order: unset; }
+  }
+</style>

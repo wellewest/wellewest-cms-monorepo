@@ -1,0 +1,80 @@
+---
+/**
+ * CMS → Astro-Bridge.
+ * Holt jede Seite aus Payload anhand des Slugs und rendert die Blocks.
+ *
+ * URL-Mapping:
+ *   /                  → Page mit slug "home"
+ *   /ueber-uns         → Page mit slug "ueber-uns"
+ *   /leistungen/seo    → Page mit slug "leistungen/seo"
+ *
+ * Wird beim Build statisch gerendert (`astro build`). Webhook von Payload
+ * triggert Rebuild bei Content-Save (siehe Phase 3 Backup-/Webhook-Doku).
+ */
+import Base from '../layouts/Base.astro'
+import RichText from '@wellewest/blocks/RichText.astro'
+import BlockRenderer from '@wellewest/blocks/BlockRenderer.astro'
+import { find, findOne } from '../lib/payload'
+
+export async function getStaticPaths() {
+  const { docs } = await find<{ slug: string }>({
+    collection: 'pages',
+    limit: 200,
+    depth: 0,
+  }).catch(() => ({ docs: [] as { slug: string }[] }))
+
+  return docs
+    // home wird über src/pages/index.astro gerendert
+    .filter((p) => p.slug && p.slug !== 'home')
+    .map((p) => ({
+      params: { slug: p.slug },
+    }))
+}
+
+const { slug } = Astro.params
+
+const page: any = await findOne({
+  collection: 'pages',
+  where: { slug: { equals: slug } },
+}).catch(() => null)
+
+if (!page) {
+  return Astro.redirect('/404')
+}
+
+const cmsBaseURL = import.meta.env.CMS_URL || process.env.CMS_URL || 'https://cms.wellewest.at'
+---
+
+<Base
+  title={page.metaTitle || page.title}
+  description={page.metaDescription}
+  metaImage={page.metaImage?.url ? (page.metaImage.url.startsWith('http') ? page.metaImage.url : cmsBaseURL + page.metaImage.url) : undefined}
+  noindex={page.noindex}
+>
+  {page.blocks && page.blocks.length > 0 && (
+    <BlockRenderer blocks={page.blocks} cmsBaseURL={cmsBaseURL} />
+  )}
+
+  {page.body && (
+    <section class="page-body">
+      <div class="container">
+        <RichText data={page.body} />
+      </div>
+    </section>
+  )}
+
+  {(!page.blocks || page.blocks.length === 0) && !page.body && (
+    <section class="page-empty">
+      <div class="container">
+        <h1>{page.title}</h1>
+        <p class="hint">Diese Seite hat noch keine Inhalte. Lege Blöcke im CMS an.</p>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .page-body { padding: 3rem 0; }
+  .page-empty { padding: 6rem 0; text-align: center; }
+  .page-empty .hint { color: var(--color-text-muted, #6a7990); }
+</style>

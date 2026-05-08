@@ -1,0 +1,22 @@
+{
+  "name": "@wellewest/blocks",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "WelleWest Astro Block-Komponenten — gerendert aus Payload CMS Blocks",
+  "exports": {
+    "./BlockRenderer.astro": "./src/BlockRenderer.astro",
+    "./Hero.astro": "./src/Hero.astro",
+    "./TextImage.astro": "./src/TextImage.astro",
+    "./Text.astro": "./src/Text.astro",
+    "./Gallery.astro": "./src/Gallery.astro",
+    "./FAQ.astro": "./src/FAQ.astro",
+    "./CTA.astro": "./src/CTA.astro",
+    "./RichText.astro": "./src/RichText.astro",
+    "./payload.ts": "./src/payload.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "peerDependencies": {
+    "astro": ">=5.0.0"
+  }
+}

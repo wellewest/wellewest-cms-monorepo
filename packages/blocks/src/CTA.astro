@@ -1,0 +1,40 @@
+---
+interface Props { block: any }
+const { block } = Astro.props
+const variant = block.variant || 'accent'
+---
+
+<section class={`cta cta--${variant}`}>
+  <div class="container cta__inner">
+    <div class="cta__text">
+      <h2>{block.heading}</h2>
+      {block.text && <p>{block.text}</p>}
+    </div>
+    <a href={block.ctaLink} class="btn cta__btn">{block.ctaLabel}</a>
+  </div>
+</section>
+
+<style>
+  .cta { padding: 3.5rem 0; }
+  .cta--accent { background: var(--color-bg-alt, #f5f3ee); }
+  .cta--dark { background: var(--color-bg-dark, #0e1f3d); color: #fff; }
+  .cta--dark h2 { color: #fff; }
+  .cta--plain { background: transparent; }
+
+  .cta__inner {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 2rem; flex-wrap: wrap;
+  }
+  .cta__text { flex: 1; min-width: 280px; }
+  .cta__text h2 { margin: 0 0 0.5rem; }
+  .cta__text p { margin: 0; max-width: 60ch; line-height: 1.6; }
+
+  .cta--dark .btn {
+    background: var(--color-accent, #c9a25a); color: #fff; border-color: var(--color-accent, #c9a25a);
+  }
+
+  @media (max-width: 700px) {
+    .cta__inner { flex-direction: column; align-items: flex-start; }
+    .cta__btn { width: 100%; text-align: center; }
+  }
+</style>

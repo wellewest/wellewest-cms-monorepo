@@ -1,45 +1,55 @@
 ---
 import Base from '../layouts/Base.astro'
+import RichText from '@wellewest/blocks/RichText.astro'
+import BlockRenderer from '@wellewest/blocks/BlockRenderer.astro'
 import { findOne } from '../lib/payload'
 
-const homepage = await findOne({
+const homepage: any = await findOne({
   collection: 'pages',
   where: { slug: { equals: 'home' } },
 }).catch(() => null)
+
+const cmsBaseURL = import.meta.env.CMS_URL || process.env.CMS_URL || 'https://cms.wellewest.at'
 ---
 
-<Base title={homepage?.title || 'Willkommen'} description={homepage?.metaDescription}>
-  <main>
-    <section class="hero">
+<Base
+  title={homepage?.metaTitle || homepage?.title}
+  description={homepage?.metaDescription}
+  metaImage={homepage?.metaImage?.url ? (homepage.metaImage.url.startsWith('http') ? homepage.metaImage.url : cmsBaseURL + homepage.metaImage.url) : undefined}
+  noindex={homepage?.noindex}
+>
+  {homepage?.blocks && homepage.blocks.length > 0 && (
+    <BlockRenderer blocks={homepage.blocks} cmsBaseURL={cmsBaseURL} />
+  )}
+
+  {homepage?.body && (
+    <section class="page-body">
       <div class="container">
-        <h1>{homepage?.title || 'WelleWest Demo'}</h1>
-        <p>Diese Demo-Seite läuft auf dem WelleWest Multi-Tenant-CMS.</p>
-        <p class="hint">
-          Inhalte verwaltest du im <a href="https://cms.wellewest.at/admin">CMS-Admin</a>.
-          Sobald du eine Seite mit Slug <code>home</code> anlegst, erscheint sie hier.
+        <RichText data={homepage.body} />
+      </div>
+    </section>
+  )}
+
+  {!homepage && (
+    <section class="empty-home">
+      <div class="container">
+        <h1>WelleWest Demo</h1>
+        <p>
+          Diese Site läuft auf dem WelleWest Multi-Tenant-CMS.
+          Lege im <a href="https://cms.wellewest.at/admin">CMS-Admin</a> eine Seite mit
+          Slug <code>home</code> an, dann erscheint sie hier.
         </p>
       </div>
     </section>
-  </main>
-
-  <style>
-    .hero {
-      padding: 8rem 0 6rem;
-      background: linear-gradient(135deg, #f6f8fc 0%, #eef4ff 100%);
-      text-align: center;
-    }
-    .hero h1 {
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      margin: 0 0 1rem;
-      color: var(--color-primary);
-    }
-    .hero p {
-      font-size: 1.25rem;
-      color: var(--color-muted);
-      max-width: 640px;
-      margin: 0 auto 1rem;
-    }
-    .hint { font-size: 0.95rem; }
-    code { background: rgba(0,74,173,0.1); padding: 0.15rem 0.5rem; border-radius: 4px; font-family: monospace; }
-  </style>
+  )}
 </Base>
+
+<style>
+  .page-body { padding: 3rem 0; }
+  .empty-home {
+    padding: 8rem 0 6rem;
+    background: linear-gradient(135deg, #f6f8fc 0%, #eef4ff 100%);
+    text-align: center;
+  }
+  .empty-home a { color: var(--color-accent, #c9a25a); }
+</style>

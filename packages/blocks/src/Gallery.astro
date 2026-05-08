@@ -1,0 +1,52 @@
+---
+interface Props {
+  block: any
+  cmsBaseURL?: string
+}
+const { block, cmsBaseURL = '' } = Astro.props
+const cols = block.columns || '3'
+const items = (block.images || []).map((it: any) => ({
+  src: it.image?.url ? (it.image.url.startsWith('http') ? it.image.url : cmsBaseURL + it.image.url) : '',
+  alt: it.image?.alt || it.caption || '',
+  caption: it.caption,
+}))
+---
+
+<section class="gallery">
+  <div class="container">
+    {block.heading && <h2 class="gallery__heading">{block.heading}</h2>}
+    <div class={`gallery__grid gallery__grid--${cols}`}>
+      {items.map((it: any) => (
+        <figure class="gallery__item">
+          <img src={it.src} alt={it.alt} loading="lazy" />
+          {it.caption && <figcaption>{it.caption}</figcaption>}
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .gallery { padding: 3rem 0; }
+  .gallery__heading { text-align: center; margin-bottom: 2.5rem; }
+  .gallery__grid { display: grid; gap: 1.25rem; }
+  .gallery__grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .gallery__grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .gallery__grid--4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 900px) {
+    .gallery__grid--3, .gallery__grid--4 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .gallery__grid--2, .gallery__grid--3, .gallery__grid--4 { grid-template-columns: 1fr; }
+  }
+  .gallery__item { margin: 0; }
+  .gallery__item img {
+    width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover;
+    border-radius: 4px; transition: transform 0.4s ease;
+  }
+  .gallery__item:hover img { transform: scale(1.02); }
+  .gallery__item figcaption {
+    margin-top: 0.6rem; font-size: 0.85rem; color: var(--color-text-muted, #6a7990);
+    text-align: center;
+  }
+</style>

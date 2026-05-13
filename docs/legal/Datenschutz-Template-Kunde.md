@@ -30,8 +30,8 @@ Firmenbuch-Nummer: {{KUNDE_FB_NR}}
 
 Diese Website wird im Auftrag des Verantwortlichen technisch betrieben durch:
 
-**Nordsteg OnlineMarketing eU** (Marke: WelleWest)
-{{NORDSTEG_ANSCHRIFT}}
+**WelleWest Webdesign GmbH**
+Nikolaigasse 22, A-9500 Villach
 E-Mail: info@wellewest.at
 
 Mit WelleWest besteht ein Vertrag zur Auftragsverarbeitung gemäß Art. 28 DSGVO.

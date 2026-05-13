@@ -1,7 +1,7 @@
 # AVV-Vertrag (Auftragsverarbeitung) — ENTWURF
 
 > ⚠️ **DIES IST EIN ENTWURF FÜR ANWALTLICHE PRÜFUNG**
-> Vor produktiver Verwendung MUSS dieser Text anwaltlich geprüft und auf die konkreten Verhältnisse von Nordsteg OnlineMarketing eU bzw. WelleWest angepasst werden. Nordsteg / WelleWest haftet weiterhin gegenüber dem Kunden — fehlerhafter AVV-Text kann zu DSGVO-Bußen führen.
+> Vor produktiver Verwendung MUSS dieser Text anwaltlich geprüft und auf die konkreten Verhältnisse von WelleWest Webdesign GmbH angepasst werden. WelleWest haftet weiterhin gegenüber dem Kunden — fehlerhafter AVV-Text kann zu DSGVO-Bußen führen.
 
 ---
 
@@ -18,9 +18,12 @@ zwischen
 und
 
 **Auftragnehmer:**
-Nordsteg OnlineMarketing eU (Marke: WelleWest)
-[Anschrift Nordsteg]
-[USt.-IdNr.]
+WelleWest Webdesign GmbH
+Nikolaigasse 22, A-9500 Villach
+Tel.: +43 4242 93081
+E-Mail: office@wellewest.at
+Firmenbuchnummer: FN 6493932 p (Landesgericht Klagenfurt)
+UID-Nummer: ATU81937237
 — nachfolgend „Auftragsverarbeiter" oder „WelleWest" —
 
 ---

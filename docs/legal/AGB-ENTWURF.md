@@ -9,7 +9,7 @@ Stand: 2026-05-13 · Version 1.0-Entwurf
 
 ## § 1 Geltungsbereich
 
-(1) Diese Allgemeinen Geschäftsbedingungen („AGB") gelten für sämtliche Verträge über das Produkt **„WelleWest Website-Abo"** (nachfolgend „Dienst") zwischen Nordsteg OnlineMarketing eU, betreibend unter der Marke **WelleWest** (nachfolgend „Anbieter") und dem **Kunden**.
+(1) Diese Allgemeinen Geschäftsbedingungen („AGB") gelten für sämtliche Verträge über das Produkt **„WelleWest Website-Abo"** (nachfolgend „Dienst") zwischen **WelleWest Webdesign GmbH** (Marke „WelleWest") (nachfolgend „Anbieter") und dem **Kunden**.
 
 (2) Diese AGB gelten ausschließlich gegenüber Unternehmern im Sinne des § 14 BGB / § 1 KSchG. Verträge mit Verbrauchern werden nicht abgeschlossen.
 
@@ -201,11 +201,11 @@ Beide Parteien verpflichten sich, alle im Rahmen der Vertragsbeziehung erlangten
 
 ---
 
-**Nordsteg OnlineMarketing eU**
-Anschrift: [...]
-USt-IdNr.: [...]
-Firmenbuch: [...]
-Geschäftsführer: [Patrick Nachname]
+**WelleWest Webdesign GmbH**
+Nikolaigasse 22, A-9500 Villach
+USt-IdNr.: ATU81937237
+Firmenbuch: FN 6493932 p (Landesgericht Klagenfurt)
+Telefon: +43 4242 93081
 
 E-Mail: info@wellewest.at
 Website: www.wellewest.at

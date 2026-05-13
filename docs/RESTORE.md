@@ -1,7 +1,7 @@
 # WelleWest Disaster Recovery — Restore Runbook
 
 **Stand:** 2026-05-13
-**Verantwortlich:** Patrick (primär), [zweite Person noch zu benennen]
+**Verantwortlich:** Niki (primär), Patrick Katholnig (Bus-Faktor #2)
 
 Dieses Runbook beschreibt, was zu tun ist wenn der WelleWest-CMS-Server kompromittiert oder zerstört wurde. Ziel: **vollständige Wiederherstellung in <30 Min**.
 
@@ -275,9 +275,9 @@ rm -rf /tmp/restore-test
 | **Backblaze-Notfall** | B2-Support | support@backblaze.com |
 | **Coolify-Notfall** | Discord | https://coolify.io/discord |
 | **Code-Repo** | GitHub `wellewest`-Org | nicolasfabjan, patrick |
-| **Zweite Person mit Zugang** | **NOCH ZU BENENNEN** | |
+| **Zweite Person mit Zugang** | Patrick Katholnig | patrick.katholnig@wellewest.at — siehe PATRICK-ONBOARDING.md |
 
-⚠️ **TODO Bus-Faktor:** zweite Person mit Coolify-Admin, SSH-Key, keys.env-Zugang einrichten. Aktuell Single-Point-of-Failure.
+✅ **Bus-Faktor:** Patrick Katholnig hat Coolify-, CMS-, n8n-Zugang. SSH-Key + 1Password-Vault offen — siehe PATRICK-ONBOARDING.md Punkt 6.
 
 ---
 

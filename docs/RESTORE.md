@@ -37,12 +37,12 @@ ssh -i ~/.ssh/wellewest_cms_ed25519 root@178.105.75.15
 
 ## 2. Was alles gesichert ist
 
-| Komponente | Speicherort | Aufbewahrung |
-|---|---|---|
-| Payload Postgres | `b2:wellewest-cms-assets/backups/daily/payload-cms_*.pgdump` | 30 Tage |
-| n8n SQLite + Workflows | `b2:.../backups/daily/n8n_*.tar.gz` | 30 Tage |
-| Plausible Postgres | `b2:.../backups/daily/plausible-pg_*.pgdump` | 30 Tage |
-| Plausible ClickHouse | `b2:.../backups/daily/plausible-ch_*.tar.gz` | 30 Tage |
+| Komponente | Speicherort | Aufbewahrung | Schutz |
+|---|---|---|---|
+| Payload Postgres | `b2-backup:wellewest-backups/daily/payload-cms_*.pgdump` | 35 Tage | Object Lock Compliance 31d |
+| n8n SQLite + Workflows | `b2-backup:wellewest-backups/daily/n8n_*.tar.gz` | 35 Tage | Object Lock Compliance 31d |
+| Plausible Postgres | `b2-backup:wellewest-backups/daily/plausible-pg_*.pgdump` | 35 Tage | Object Lock Compliance 31d |
+| Plausible ClickHouse | `b2-backup:wellewest-backups/daily/plausible-ch_*.tar.gz` | 35 Tage | Object Lock Compliance 31d |
 | Bilder/Medien (B2-Bucket) | `b2:wellewest-cms-assets/media/...` | unbegrenzt |
 | Code | GitHub `wellewest/wellewest-cms-monorepo` | unbegrenzt |
 | DNS-Einträge | bei easyname dokumentiert (siehe HANDOVER.md) | — |
@@ -75,8 +75,8 @@ curl -s "http://178.105.75.15:8000/api/v1/deploy?uuid=tw2o5k2zsa80s44dyu19axnf&f
 ssh root@178.105.75.15
 
 # Letztes Backup aus B2 holen
-LATEST=$(rclone ls b2:wellewest-cms-assets/backups/daily/ | grep payload-cms | sort -k2 | tail -1 | awk '{print $2}')
-mkdir -p /tmp/restore && rclone copy "b2:wellewest-cms-assets/backups/daily/$LATEST" /tmp/restore/
+LATEST=$(rclone ls b2-backup:wellewest-backups/daily/ | grep payload-cms | sort -k2 | tail -1 | awk '{print $2}')
+mkdir -p /tmp/restore && rclone copy "b2-backup:wellewest-backups/daily/$LATEST" /tmp/restore/
 
 # Postgres-Container stoppen + DB neu erstellen
 PG=o4goc0u80gpnpbvq55tyrrbu  # aus HANDOVER.md
@@ -102,8 +102,8 @@ docker restart n8n-ks8xc039jjc3otu5a4qgl6xh
 
 ```bash
 # Letztes n8n-Backup holen
-LATEST=$(rclone ls b2:wellewest-cms-assets/backups/daily/ | grep n8n | sort -k2 | tail -1 | awk '{print $2}')
-rclone copy "b2:wellewest-cms-assets/backups/daily/$LATEST" /tmp/
+LATEST=$(rclone ls b2-backup:wellewest-backups/daily/ | grep n8n | sort -k2 | tail -1 | awk '{print $2}')
+rclone copy "b2-backup:wellewest-backups/daily/$LATEST" /tmp/
 
 # Volume neu befüllen
 VOL=$(docker volume ls -q | grep ks8xc039jjc3otu5a4qgl6xh_n8n-data)
@@ -174,7 +174,7 @@ EOF
 
 # Backups runterladen
 mkdir -p /tmp/restore
-rclone copy b2:wellewest-cms-assets/backups/daily/ /tmp/restore/
+rclone copy b2-backup:wellewest-backups/daily/ /tmp/restore/
 
 # Pro Backup-Datei: Punkt 3b/3d-Schritte durchgehen
 ```
@@ -214,7 +214,7 @@ Falls aktuelle Backups kompromittiert sind (Angreifer hatte Zugriff vor dem erst
 
 ```bash
 # Älteres Backup wählen (z.B. 7 Tage alt)
-rclone ls b2:wellewest-cms-assets/backups/daily/ | grep payload-cms | sort -k2 | tail -8 | head -1
+rclone ls b2-backup:wellewest-backups/daily/ | grep payload-cms | sort -k2 | tail -8 | head -1
 # Datum prüfen, sicherstellen dass es VOR Kompromittierung war
 
 # Alle Application-Keys rotieren BEVOR Restore:
@@ -247,9 +247,9 @@ rclone ls b2:wellewest-cms-assets/backups/daily/ | grep payload-cms | sort -k2 |
 ### Quick-Test (5 Min)
 ```bash
 ssh root@178.105.75.15
-LATEST=$(rclone ls b2:wellewest-cms-assets/backups/daily/ | grep payload-cms | sort -k2 | tail -1 | awk '{print $2}')
+LATEST=$(rclone ls b2-backup:wellewest-backups/daily/ | grep payload-cms | sort -k2 | tail -1 | awk '{print $2}')
 mkdir -p /tmp/restore-test
-rclone copy "b2:wellewest-cms-assets/backups/daily/$LATEST" /tmp/restore-test/
+rclone copy "b2-backup:wellewest-backups/daily/$LATEST" /tmp/restore-test/
 
 docker rm -f restore-test-pg 2>/dev/null
 docker run -d --name restore-test-pg \
@@ -286,6 +286,7 @@ rm -rf /tmp/restore-test
 - ✅ Backup-Pipeline funktioniert (4 Files täglich, Lifecycle, Slack-Notification)
 - ✅ Restore in <5 Sek für CMS-Postgres (153 KB Dump) — DB-Größe wird mit Kunden wachsen
 - ✅ 38 Tabellen + Block-Daten + Users + Tenants vollständig wiederhergestellt
-- ⏳ B2 Object-Lock noch nicht aktiv (Bucket war ohne erstellt) — restricted Application-Key als Mitigation geplant
+- ✅ B2 Object Lock Compliance Mode aktiv (Bucket `wellewest-backups`, 31 Tage Default Retention)
+- ✅ Restricted Backup-Key (`wellewest-backups-key`, scoped auf Bucket) ersetzt Master-Key auf Server
 - ⏳ Coolify-Config selbst nicht gesichert — TODO: cron + B2-Upload von `/data/coolify/source/.env`
 - ⏳ Repo-JSON-Snapshot als 3. Backup-Schicht noch nicht implementiert
